@@ -150,4 +150,34 @@ module.exports = {
       })
       .catch((error) => res.status(400).send(error))
   },
+
+    deleteMessage(req, res) {
+      const messageId = parseInt(req.params.id)
+      if (isNaN(messageId)) {
+        return res.status(400).send({
+          message: 'Invalid message id'
+        })
+      }
+      ContactMessage.destroy({
+        where: {
+          message_id: messageId
+        }
+      }).then(() => {
+        Message.findById(messageId)
+          .then(message => {
+            if (!message) {
+              return res.status(404).send({
+                message: 'Message not found'
+              })
+            }
+            return message
+              .destroy()
+              .then(() => res.status(200).send({
+                message: 'sms deleted successfully'
+              }))
+              .catch((error) => res.status(400).send(error))
+          })
+          .catch((error) => res.status(400).send(error))
+      })
+    }
 }
