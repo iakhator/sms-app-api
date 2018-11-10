@@ -123,4 +123,31 @@ module.exports = {
       })
       .catch((error) => res.status(400).send(error))
   },
+
+  updateMessage(req, res) {
+    const messageId = parseInt(req.params.id)
+    if (isNaN(messageId)) {
+      return res.status(400).send({
+        message: 'Please pass in an integer'
+      })
+    }
+    return Message
+      .findById(req.params.id)
+      .then(message => {
+        if (!message) {
+          return res.status(404).send({
+            message: 'Message not found'
+          })
+        }
+        return message
+          .update({
+            sms: req.body.sms || message.sms
+          })
+          .then(() => res.status(200).send({
+            message: 'Message successfully updated'
+          }))
+          .catch((error) => res.status(400).send(error))
+      })
+      .catch((error) => res.status(400).send(error))
+  },
 }
