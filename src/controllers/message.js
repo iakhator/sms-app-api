@@ -93,4 +93,34 @@ module.exports = {
       .catch((error) => res.status(400).send(error))
   },
 
+  getOneMessage(req, res) {
+    const messageId = req.params.id
+    if (isNaN(messageId)) {
+      return res.status(400).send({
+        message: 'Invalid message id'
+      })
+    }
+    return Message.findById(messageId, {
+        attributes: ['id', 'sms', 'sender'],
+        include: [{
+          model: Contact,
+          as: 'contacts',
+          attributes: [
+            'contact_name', 'contact_phone'
+          ],
+          through: {
+            attributes: ['message_id', 'contact_id']
+          }
+        }]
+      })
+      .then((message) => {
+        if (!message) {
+          return res.status(404).send({
+            message: 'Message not found'
+          })
+        }
+        return res.status(200).send(message)
+      })
+      .catch((error) => res.status(400).send(error))
+  },
 }
