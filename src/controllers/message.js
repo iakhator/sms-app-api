@@ -3,30 +3,30 @@ const Message = require('../models').Message
 const ContactMessage = require('../models').ContactMessage
 
 module.exports = {
-  getAllMessages(req, res) {
+  getAllMessages (req, res) {
     return Message.findAll({
-        attributes: ['id', 'sms', 'sender'],
-        include: [{
-          model: Contact,
-          as: 'contacts',
-          attributes: [
-            'contact_name', 'contact_phone'
-          ],
-          through: {
-            attributes: ['message_id', 'contact_id']
-          }
-        }],
-        order: [
-          ['createdAt', 'DESC']
-        ]
-      })
-      .then((messages) => res.status(200).send(messages))
-      .catch((error) => {
-        res.status(400).send(error)
-      })
+      attributes: ['id', 'sms', 'sender'],
+      include: [{
+        model: Contact,
+        as: 'contacts',
+        attributes: [
+          'contact_name', 'contact_phone'
+        ],
+        through: {
+          attributes: ['message_id', 'contact_id']
+        }
+      }],
+      order: [
+        ['createdAt', 'DESC']
+      ]
+    })
+    .then((messages) => res.status(200).send(messages))
+    .catch((error) => {
+      res.status(400).send(error)
+    })
   },
 
-  sendSms(req, res) {
+  sendSms (req, res) {
     if (req.body.sender === '') {
       return res.status(400).send({
         message: 'Sender Field must not be empty'
@@ -78,17 +78,17 @@ module.exports = {
           })
         }
         return Message.create({
-            sms: req.body.sms,
-            sender: users[0].id
+          sms: req.body.sms,
+          sender: users[0].id
+        })
+        .then(message => {
+          message.setContacts(users)
+          return res.status(201).send({
+            data: message,
+            message: 'sms sent successfully'
           })
-          .then(message => {
-            message.setContacts(users)
-            return res.status(201).send({
-              data: message,
-              message: 'sms sent successfully'
-            })
-          })
-          .catch((error) => res.status(400).send(error))
+        })
+        .catch((error) => res.status(400).send(error))
       })
       .catch((error) => res.status(400).send(error))
   },
@@ -101,30 +101,30 @@ module.exports = {
       })
     }
     return Message.findById(messageId, {
-        attributes: ['id', 'sms', 'sender'],
-        include: [{
-          model: Contact,
-          as: 'contacts',
-          attributes: [
-            'contact_name', 'contact_phone'
-          ],
-          through: {
-            attributes: ['message_id', 'contact_id']
-          }
-        }]
-      })
-      .then((message) => {
-        if (!message) {
-          return res.status(404).send({
-            message: 'Message not found'
-          })
+      attributes: ['id', 'sms', 'sender'],
+      include: [{
+        model: Contact,
+        as: 'contacts',
+        attributes: [
+          'contact_name', 'contact_phone'
+        ],
+        through: {
+          attributes: ['message_id', 'contact_id']
         }
-        return res.status(200).send(message)
-      })
-      .catch((error) => res.status(400).send(error))
+      }]
+    })
+    .then((message) => {
+      if (!message) {
+        return res.status(404).send({
+          message: 'Message not found'
+        })
+      }
+      return res.status(200).send(message)
+    })
+    .catch((error) => res.status(400).send(error))
   },
 
-  updateMessage(req, res) {
+  updateMessage (req, res) {
     const messageId = parseInt(req.params.id)
     if (isNaN(messageId)) {
       return res.status(400).send({

@@ -11,17 +11,563 @@
   },
   "host": "localhost:3000",
   "basePath": "/api",
-  "tags": [{
-    "name": "Sms",
-    "description": "API for Sms Messaging"
-  }],
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "consumes": [
     "application/json"
   ],
   "produces": [
     "application/json"
-  ]
+  ],
+  "paths": {
+    "/contact": {
+      "post": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Create new contact",
+        "description": "Create new contact",
+        "parameters": [{
+          "name": "contact",
+          "in": "body",
+          "description": "Contact that we want to create",
+          "schema": {
+            "$ref": "#/definitions/Contact"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "summary": "Add new contact",
+            "description": "New Contact is created",
+            "examples": {
+              "application/json": {
+                "message": "Contact added successfully",
+                "contact": {
+                  "id": 5,
+                  "contact_name": "Frank Ajaps",
+                  "contact_phone": "07084567845",
+                  "createdAt": "2018-11-09",
+                  "updateAt": "2018-11-09"
+                }
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "examples": {
+              "application/json": {
+                "message": "Invalid phone number"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Get all contacts with corresponding Messages",
+        "description": "Get all contacts",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "contact": {
+                  "id": 5,
+                  "contact_name": "Frank Ajaps",
+                  "contact_phone": "07084567845",
+                  "messages": [
+                    {
+                      "sms": "How do you think I can resolve that?",
+                      "sender": "2"
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        }
+      }
+    },
+    "/contact/{id}": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "get a contact by id",
+        "description": "Get One Contact",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "Get one contact with the corresponding messages",
+          "required": true,
+          "type": "integer",
+          "schema": {
+            "$ref": "#/definitions/Contact"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "summary": "",
+            "description": "Succesfull Operation",
+            "examples": {
+              "application/json": {
+                "contact": {
+                  "id": 5,
+                  "contact_name": "Frank Ajaps",
+                  "contact_phone": "07084567845",
+                  "messages": [{
+                    "sms": "How do you think I can resolve that?",
+                    "sender": "2"
+                  }, {
+                    "sms": "You can solve it using default",
+                    "sender": "5"
+                  }]
+                }
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "examples": {
+              "application/json": {
+                "message": "Invalid contact id"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "examples": {
+              "application/json": {
+                "message": "Contact not found"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Update contact by id",
+        "description": "update contacts",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "update contact by id",
+          "required": true,
+          "type": "integer"
+        }, {
+          "name": "contact_name",
+          "in": "formData",
+          "description": "Updated contact_name of the contact",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "contact_phone",
+          "in": "formData",
+          "description": "Updated contact_phone of contact",
+          "required": false,
+          "type": "string"
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "message": "Contact successfully updated"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found",
+            "examples": {
+              "application/json": {
+                "message": "Contact not found"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Delete contact by Id",
+        "description": "delete contacts",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "update contact by id",
+          "required": true,
+          "type": "integer"
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "message": "Contact deleted successfully"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found",
+            "examples": {
+              "application/json": {
+                "message": "Contact not found"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/message": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Send sms",
+        "description": "Send sms from sender to reciever",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [{
+          "name": "sender",
+          "in": "formData",
+          "description": "sender phone",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "reciever",
+          "in": "formData",
+          "description": "reciever phone",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "sms",
+          "in": "formData",
+          "description": "sms message",
+          "required": false,
+          "type": "string"
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "summary": "Create sms",
+            "description": "create sms",
+            "examples": {
+              "application/json": {
+                "message": "sms sent successfully",
+                "contact": {
+                  "id": 5,
+                  "sender": "08064753647",
+                  "reciever": "07084567845",
+                  "createdAt": "2018-11-09",
+                  "updateAt": "2018-11-09"
+                }
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "examples": {
+              "application/json": {
+                "message": "Invalid phone number"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Get all messages with corresponding contacts",
+        "description": "Get all message",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "contact": {
+                  "id": 5,
+                  "sms": "Where are you",
+                  "sender": "1",
+                  "contacts": [{
+                    "contact_name": "Frank Ajaps",
+                    "contact_phone": "07084567845"
+                  }]
+                }
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/message/{id}": {
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "get a message by id",
+        "description": "Get One Message",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "Get one message with the corresponding contacts",
+          "required": true,
+          "type": "integer",
+          "schema": {
+            "$ref": "#/definitions/Message"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesfull Operation",
+            "examples": {
+              "application/json": {
+                "message": {
+                  "id": 5,
+                  "sms": "Yes I got it",
+                  "sender": "2",
+                  "contacts": [{
+                    "contact_name": "Frank Ajaps",
+                    "contact_phone": "07084567845"
+                  }, {
+                    "contact_name": "Frank Adele",
+                    "contact_phone": "07084567845"
+                  }]
+                }
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "examples": {
+              "application/json": {
+                "message": "Invalid message id"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "examples": {
+              "application/json": {
+                "message": "Message not found"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Update message by id",
+        "description": "update contacts",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "update message by id",
+          "required": true,
+          "type": "integer"
+        }, {
+          "name": "sms",
+          "in": "formData",
+          "description": "Updated sms of the message",
+          "required": false,
+          "type": "string"
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "message": "Message successfully updated"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid message id"
+          },
+          "404": {
+            "description": "Not found",
+            "examples": {
+              "application/json": {
+                "message": "Message not found"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Delete contact by Id",
+        "description": "delete contacts",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "update contact by id",
+          "required": true,
+          "type": "integer"
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "message": "Contact deleted successfully"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found",
+            "examples": {
+              "application/json": {
+                "message": "Contact not found"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Contact": {
+      "required": [
+        "contact_name",
+        "contact_phone"
+      ],
+      "properties": {
+        "contact_name": {
+          "type": "string",
+          "examples": "David Flitch"
+        },
+        "contact_phone": {
+          "type": "string",
+          "uniqueItems": true,
+          "examples": "07064583546"
+        }
+      }
+    },
+    "Message": {
+      "required": [
+        "sms",
+        "sender"
+      ],
+      "properties": {
+        "sms": {
+          "type": "string",
+          "examples": "How are you doing?"
+        },
+        "sender": {
+          "type": "integer",
+          "uniqueItems": true,
+          "examples": 1
+        },
+        "status": {
+          "type": "string",
+          "examples": "sent"
+        }
+      }
+    }
+  }
 }
