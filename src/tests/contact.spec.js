@@ -11,20 +11,20 @@ let testContact
 describe('Contact Api', () => {
   before(done => {
     db.Contact.create({
-        contact_name: 'John Doe',
-        contact_phone: '09087675436'
-      })
-      .then((contact) => {
-        testContact = contact.dataValues
-        done()
-      })
+      contact_name: 'John Doe',
+      contact_phone: '09087675436'
+    })
+    .then((contact) => {
+      testContact = contact.dataValues
+      done()
+    })
   })
 
   after(done => {
     db.Contact.destroy({
-        where: {}
-      })
-      .then(done())
+      where: {}
+    })
+    .then(done())
   })
 
   describe('CREATE Contact POST /api/contact', () => {
@@ -164,8 +164,8 @@ describe('Contact Api', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(200)
-          expect(res.body.contact_name).to.equal('Test Updating')
-          expect(res.body.contact_phone).to.equal('01234567980')
+          expect(res.body.contact.contact_name).to.equal('Test Updating')
+          expect(res.body.contact.contact_phone).to.equal('01234567980')
           done()
         })
     })

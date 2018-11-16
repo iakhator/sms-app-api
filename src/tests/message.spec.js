@@ -37,19 +37,19 @@ describe('SMS API', () => {
 
   after(done => {
     db.ContactMessage.destroy({
+      where: {}
+    })
+    .then(() => {
+      db.Message.destroy({
         where: {}
       })
       .then(() => {
-        db.Message.destroy({
-            where: {}
-          })
-          .then(() => {
-            db.Contact.destroy({
-                where: {}
-              })
-              .then(done())
-          })
+        db.Contact.destroy({
+          where: {}
+        })
+        .then(done())
       })
+    })
   })
 
   describe('CREATE Sms POST /api/sms', () => {
