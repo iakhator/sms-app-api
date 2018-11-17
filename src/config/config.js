@@ -10,17 +10,9 @@ module.exports = {
   },
   test: {
     use_env_variable: 'TEST_DB'
-    // username: 'smsapp',
-    // password: 'pass1234',
-    // database: 'sms_app_test',
-    // host: '127.0.0.1',
-    // dialect: 'postgres'
   },
   production: {
-    username: 'smsapp',
-    password: 'pass1234',
-    database: 'sms_app_production',
-    host: '127.0.0.1',
+    use_env_variable: 'PRODUCTION_DB',
     dialect: 'postgres'
   }
 }
