@@ -12,8 +12,8 @@
   "host": "sms-message-api.herokuapp.com",
   "basePath": "/api",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
   "consumes": [
     "application/json"
