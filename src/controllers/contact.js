@@ -90,8 +90,14 @@ module.exports = {
       })
       .catch((error) => res.status(400).send(error))
   },
-  updateContact(req, res) {
+  updateContact (req, res) {
     const contactId = parseInt(req.params.id)
+    if (contactId === 1) {
+      return res.status(400).send({
+        message: 'You cannot perform that operation'
+      })
+    }
+
     if (isNaN(contactId)) {
       return res.status(400).send({
         message: 'Please pass in an integer'
@@ -121,44 +127,50 @@ module.exports = {
 
   deleteContact (req, res) {
     const contactId = parseInt(req.params.id)
+    if (contactId === 1) {
+      return res.status(400).send({
+        message: 'You cannot perform that operation'
+      })
+    }
+
     if (isNaN(contactId)) {
       return res.status(400).send({
         message: 'Invalid contact id'
       })
     }
     ContactMessage.update({
-        contact_id: 1
+      contact_id: 1
+    }, {
+      where: {
+        contact_id: contactId
+      }
+    })
+    .then(() => {
+      return Message.update({
+        sender: 1
       }, {
         where: {
-          contact_id: contactId
+          sender: contactId
         }
       })
       .then(() => {
-        return Message.update({
-          sender: 1
-        }, {
-          where: {
-            sender: contactId
-          }
-        })
-        .then(() => {
-          Contact.findById(contactId)
-            .then((contact) => {
-              if (!contact) {
-                return res.status(404).send({
-                  message: 'Contact not found'
-                })
-              }
-              return contact
-                .destroy()
-                .then(() => res.status(200).send({
-                  message: 'Contact deleted successfully'
-                }))
-                .catch((error) => res.status(400).send(error))
-            })
-        })
-        .catch((error) => res.status(400).send(error))
+        Contact.findById(contactId)
+          .then((contact) => {
+            if (!contact) {
+              return res.status(404).send({
+                message: 'Contact not found'
+              })
+            }
+            return contact
+              .destroy()
+              .then(() => res.status(200).send({
+                message: 'Contact deleted successfully'
+              }))
+              .catch((error) => res.status(400).send(error))
+          })
       })
+      .catch((error) => res.status(400).send(error))
+    })
     .catch((error) => res.status(400).send(error))
   }
 }

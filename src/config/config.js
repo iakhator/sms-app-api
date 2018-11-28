@@ -12,9 +12,3 @@ module.exports = {
     dialect: 'postgres'
   }
 }
-
-// username: 'smsapp',
-//   password: 'pass1234',
-//     database: 'sms_app',
-//       host: '127.0.0.1',
-//         dialect: 'postgres'
