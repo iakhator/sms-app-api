@@ -83,6 +83,15 @@ This API is built with the following technologies;
 - Install all required dependencies with `$ npm install`
 - Create a `.env` file in your root directory as described in `.env.sample` file
 
+## Set up Database
+
+- open your terminal and run `psql postgres -U <username>`
+- next create the database using `postgres=> CREATE DATABASE <database>`
+- grant user all priivileges to database `postgres=> GRANT ALL PRIVILEGES ON DATABASE <database> TO <username>`
+- quit `postgres=> \q`
+- run migration `sequelize db:migrate`
+
+
 ## Start for development/Local
 ```
 npm start

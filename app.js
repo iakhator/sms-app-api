@@ -1,14 +1,14 @@
-var createError = require('http-errors')
-var express = require('express')
-var cookieParser = require('cookie-parser')
-var path = require('path')
-var logger = require('morgan')
-var swaggerUi = require('swagger-ui-express')
-var swaggerDocument = require('./swagger.json')
+const createError = require('http-errors')
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const path = require('path')
+const logger = require('morgan')
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger.json')
 
-var indexRouter = require('./src/routes/index')
+const indexRouter = require('./src/routes/index')
 
-var app = express()
+const app = express()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'src/views'))
