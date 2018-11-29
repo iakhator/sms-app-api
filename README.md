@@ -81,11 +81,10 @@ This API is built with the following technologies;
 - Clone the repository `$ git clone https://github.com/iakhator/sms-app-api.git`
 - Change into the directory `$ cd /sms-app-api`
 - Install all required dependencies with `$ npm install`
-- Create a `.env` file in your root directory as described in `.env-example` file
 
 ## Set up Database
 
-- open your terminal and run `psql postgres --u postgres to login into postgres
+- run `psql postgres --u postgres` to login into postgres
 - create a role `CREATE ROLE <username> WITH LOGIN PASSWORD '<password>';`
 - alter the role for the new user `ALTER ROLE djamware CREATEDB;`
 - quit postgres `\q`
@@ -93,6 +92,7 @@ This API is built with the following technologies;
 - next create the database using `postgres=> CREATE DATABASE <database>;`
 - grant user all priivileges to database `postgres=> GRANT ALL PRIVILEGES ON DATABASE <database> TO <username>;`
 - quit postgres `\q`
+- Create a `.env` file in your root directory as described in `.env-example` file and replace the data with the database credentials you just created
 - run migration `sequelize db:migrate`
 
 
