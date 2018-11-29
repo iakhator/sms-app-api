@@ -50,7 +50,7 @@ module.exports = {
       })
     }
     return Contact
-      .find({
+      .findOne({
         where: {
           contact_phone: req.body.sender
         }
@@ -63,7 +63,7 @@ module.exports = {
         }
         let users = [sender]
         return Contact
-          .find({
+          .findOne({
             where: {
               contact_phone: req.body.reciever
             }
