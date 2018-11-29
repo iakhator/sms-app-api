@@ -140,7 +140,7 @@ describe('Contact Api', () => {
 
   describe('GET all Contacts GET /api/contact', () => {
     it('it should get all contacts successfully', (done) => {
-      superRequest.get('/api/contact')
+      superRequest.get('/api/contacts')
         .set({
           'content-type': 'application/json'
         })

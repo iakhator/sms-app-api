@@ -5,7 +5,7 @@ const messageController = require('../controllers').message
 
 /* Add contact listing. */
 router.post('/contact', contactController.createContact)
-router.get('/contact', contactController.getAllContact)
+router.get('/contacts', contactController.getAllContact)
 router.get('/contact/:id', contactController.getOneContact)
 router.put('/contact/:id', contactController.updateContact)
 router.delete('/contact/:id', contactController.deleteContact)

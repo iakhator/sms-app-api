@@ -72,7 +72,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/contacts": {
       "get": {
         "tags": [
           "Contacts"
@@ -91,12 +93,10 @@
                   "id": 5,
                   "contact_name": "Frank Ajaps",
                   "contact_phone": "07084567845",
-                  "messages": [
-                    {
-                      "sms": "How do you think I can resolve that?",
-                      "sender": "2"
-                    }
-                  ]
+                  "messages": [{
+                    "sms": "How do you think I can resolve that?",
+                    "sender": "2"
+                  }]
                 }
               }
             },
@@ -273,7 +273,7 @@
         }
       }
     },
-    "/message": {
+    "/sms": {
       "post": {
         "tags": [
           "Messages"
@@ -376,7 +376,7 @@
         }
       }
     },
-    "/message/{id}": {
+    "/sms/{id}": {
       "get": {
         "tags": [
           "Messages"

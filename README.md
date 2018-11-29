@@ -25,7 +25,7 @@ The API has predictable, resource-oriented URLs, and uses HTTP response codes to
   }
   ```
 
-  - Retrieve All contacts: Get all contacts by calling a `GET` request via `/api/contact`.
+  - Retrieve All contacts: Get all contacts by calling a `GET` request via `/api/contacts`.
   - Retrieve a contact: Get contact by calling a `GET` request and passing the `contactId` via `/api/contact/:id`.
   - Update contact: User can update contacts by their own Id.
   >`Provide the fields below` then call a `PUT` request via `/api/contact/:id`  the id is the `contact id` you want to update
@@ -86,7 +86,7 @@ This API is built with the following technologies;
 
 - run `psql postgres --u postgres` to login into postgres
 - create a role `CREATE ROLE <username> WITH LOGIN PASSWORD '<password>';`
-- alter the role for the new user `ALTER ROLE djamware CREATEDB;`
+- alter the role for the new user `ALTER ROLE <username> CREATEDB;`
 - quit postgres `\q`
 - run `psql postgres -U <username>;`
 - next create the database using `postgres=> CREATE DATABASE <database>;`
@@ -105,6 +105,14 @@ it should run on `localhost:3000`
 ## Documentation
 ```
 Run on `localhost:3000/api-docs`
+```
+
+## Testing api with Swagger
+
+- To test on local
+```
+open `swagger.json` change `host` to `host:localhost:3000`
+change `https` to `http` in `localhost:3000/api-docs`
 ```
 
 ## Testing
