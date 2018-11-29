@@ -81,14 +81,18 @@ This API is built with the following technologies;
 - Clone the repository `$ git clone https://github.com/iakhator/sms-app-api.git`
 - Change into the directory `$ cd /sms-app-api`
 - Install all required dependencies with `$ npm install`
-- Create a `.env` file in your root directory as described in `.env.sample` file
+- Create a `.env` file in your root directory as described in `.env-example` file
 
 ## Set up Database
 
-- open your terminal and run `psql postgres -U <username>`
-- next create the database using `postgres=> CREATE DATABASE <database>`
-- grant user all priivileges to database `postgres=> GRANT ALL PRIVILEGES ON DATABASE <database> TO <username>`
-- quit `postgres=> \q`
+- open your terminal and run `psql postgres --u postgres to login into postgres
+- create a role `CREATE ROLE <username> WITH LOGIN PASSWORD '<password>';`
+- alter the role for the new user `ALTER ROLE djamware CREATEDB;`
+- quit postgres `\q`
+- run `psql postgres -U <username>;`
+- next create the database using `postgres=> CREATE DATABASE <database>;`
+- grant user all priivileges to database `postgres=> GRANT ALL PRIVILEGES ON DATABASE <database> TO <username>;`
+- quit postgres `\q`
 - run migration `sequelize db:migrate`
 
 
@@ -100,13 +104,13 @@ it should run on `localhost:3000`
 
 ## Documentation
 ```
-Run on `localhost:3000/api-doc`
+Run on `localhost:3000/api-docs`
 ```
 
 ## Testing
 
 - Open a terminal and navigate to the project directory 
-- Add a test database url (DATABASE_URL) to the .env file.(optional)
+- create a database on elephantsql and copy the url into your `env` file or you can follow set up above to create a test database
 - Run `npm test`
 
 ## LICENSE

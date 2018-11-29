@@ -23,8 +23,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/api', indexRouter)
 app.get('/', function (req, res) {
   res.render('index', {
-    title: 'Hey',
-    message: 'Hello there!'
+    title: 'Sms Api',
+    message: 'Hello Hunter, Welcome to the SMS Application Api'
   })
 })
 
