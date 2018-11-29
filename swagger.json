@@ -494,12 +494,12 @@
         "tags": [
           "Messages"
         ],
-        "summary": "Delete contact by Id",
-        "description": "delete contacts",
+        "summary": "Delete sms by Id",
+        "description": "delete sms",
         "parameters": [{
           "name": "id",
           "in": "path",
-          "description": "update contact by id",
+          "description": "delete sms by id",
           "required": true,
           "type": "integer"
         }],

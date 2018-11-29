@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const Contact = require('../models').Contact
 const Message = require('../models').Message
 const ContactMessage = require('../models').ContactMessage
@@ -5,25 +7,25 @@ const ContactMessage = require('../models').ContactMessage
 module.exports = {
   getAllContact(req, res) {
     return Contact.findAll({
-        attributes: ['id', 'contact_name', 'contact_phone'],
-        include: [{
-          model: Message,
-          as: 'messages',
-          attributes: [
-            'sms', 'sender'
-          ],
-          through: {
-            attributes: ['message_id', 'contact_id']
-          }
-        }],
-        order: [
-          ['createdAt', 'DESC']
-        ]
-      })
-      .then((contacts) => res.status(200).send(contacts))
-      .catch((error) => {
-        res.status(400).send(error)
-      })
+      attributes: ['id', 'contact_name', 'contact_phone'],
+      include: [{
+        model: Message,
+        as: 'messages',
+        attributes: [
+          'sms', 'sender'
+        ],
+        through: {
+          attributes: ['message_id', 'contact_id']
+        }
+      }],
+      order: [
+        ['createdAt', 'DESC']
+      ]
+    })
+    .then((contacts) => res.status(200).send(contacts))
+    .catch((error) => {
+      res.status(400).send(error)
+    })
   },
 
   createContact(req, res) {
@@ -133,31 +135,42 @@ module.exports = {
             message: 'Contact not found'
           })
         }
-        ContactMessage.destroy({
+        ContactMessage.findAll({
           where: {
             contact_id: contactId
           }
-        })
-          .then(() => {
-            Message.update({
-              sender: null
-            }, {
-              where: {
-                sender: contactId
+        }).then((contactInfo) => {
+          if (!contactInfo) {
+            return res.status(404).send({ message: 'Contact not found' })
+          }
+          const ids = contactInfo.map((contactMsg) => {
+            return contactMsg.message_id
+          })
+          return ids
+        }).then(ids => {
+          ContactMessage.destroy({
+            where: {
+              message_id: {
+                [Op.or]: ids
               }
-            })
-            .then(() => {
+            }
+          }).then(() => {
+            Message.destroy({
+              where: {
+                id: {
+                  [Op.or]: ids
+                }
+              }
+            }).then(() => {
               Contact.destroy({
                 where: {
                   id: contactId
                 }
-              })
-            }).then(() => res.status(200).send({
-              message: 'Contact deleted successfully'
-            }))
-            .catch((error) => res.status(400).send(error))
-          })
-        .catch((error) => res.status(400).send(error))
-      })
+              }).then(() => res.status(200).send({ message: 'Contact deleted successfully' }))
+              .catch(error => res.status(400).send(error))
+            }).catch(error => res.status(400).send(error))
+          }).catch(error => res.status(400).send(error))
+        })
+      }).catch(error => res.status(400).send(error))
   }
 }
