@@ -342,8 +342,8 @@
         "tags": [
           "Messages"
         ],
-        "summary": "Get all messages with corresponding contacts",
-        "description": "Get all message",
+        "summary": "Get all sms with corresponding contacts",
+        "description": "Get all sms",
         "produces": [
           "application/json"
         ],
@@ -382,11 +382,11 @@
           "Messages"
         ],
         "summary": "get a message by id",
-        "description": "Get One Message",
+        "description": "Get One Sms",
         "parameters": [{
           "name": "id",
           "in": "path",
-          "description": "Get one message with the corresponding contacts",
+          "description": "Get one sms with the corresponding contacts",
           "required": true,
           "type": "integer",
           "schema": {
@@ -447,7 +447,7 @@
         "tags": [
           "Messages"
         ],
-        "summary": "Update message by id",
+        "summary": "Update sms by id",
         "description": "update contacts",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -455,7 +455,7 @@
         "parameters": [{
           "name": "id",
           "in": "path",
-          "description": "update message by id",
+          "description": "update sms by id",
           "required": true,
           "type": "integer"
         }, {
