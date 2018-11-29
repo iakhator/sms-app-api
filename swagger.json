@@ -511,7 +511,7 @@
             "description": "OK",
             "examples": {
               "application/json": {
-                "message": "Contact deleted successfully"
+                "message": "sms deleted successfully"
               }
             }
           },
@@ -522,7 +522,7 @@
             "description": "Not found",
             "examples": {
               "application/json": {
-                "message": "Contact not found"
+                "message": "Message not found"
               }
             }
           }
